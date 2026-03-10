@@ -6,7 +6,6 @@
     <title>Summer Deployment Availability Tracker 2026</title>
     <link rel="icon" href="https://assetscontent.s3.ca-central-1.amazonaws.com/images/1596805420017-Croix-Rouge-canadienne_LogoPNG_fond-pale_1.png" type="image/png">
     
-    <!-- Google Fonts for a slightly more modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -17,8 +16,6 @@
             padding: 0;
             color: #333;
             line-height: 1.6;
-
-            /* Dynamic Stylish Background: Light blue gradient animation */
             background: linear-gradient(135deg, #e0f2f7, #c1e4ed, #e0f2f7); 
             background-size: 200% 200%;
             animation: gradientAnimation 20s ease infinite alternate;
@@ -46,7 +43,7 @@
             padding: 25px;
             text-align: center;
             border-radius: 10px 10px 0 0;
-            margin: -35px -35px 35px -35px;
+            margin: -35px -35px 0 -35px; /* Adjust margin to align with tabs */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -62,19 +59,65 @@
         .red-cross-header h1 {
             margin: 0;
             font-size: 2em;
-            font-weight: 700; /* Bolder font weight */
+            font-weight: 700;
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-bottom: 2px solid #e4002b;
+            margin: 0 -35px 35px -35px; /* Adjust margin to span width */
+            border-radius: 0 0 10px 10px; /* Rounded bottom corners if header is also rounded */
+            padding-top: 5px;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #555;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-button.active {
+            background-color: #e4002b;
+            color: #fff;
+            box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-button:not(.active):hover {
+            color: #e4002b;
+            background-color: #fcfcfc;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding-top: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .instructions {
-            background-color: #ffebe6; /* Light red/peach for instructions */
-            border-left: 5px solid #e4002b; /* Red Cross red border */
+            background-color: #ffebe6;
+            border-left: 5px solid #e4002b;
             padding: 18px;
             margin-bottom: 35px;
             border-radius: 6px;
             font-size: 1em;
-            color: #b30000; /* Darker red text */
+            color: #b30000;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
 
@@ -89,14 +132,14 @@
         }
 
         .form-section h2 {
-            color: #e4002b; /* Red Cross Red */
+            color: #e4002b;
             font-size: 1.5em;
             margin-top: 0;
             margin-bottom: 25px;
             padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
             letter-spacing: 0.3px;
-            font-weight: 600; /* Bolder section titles */
+            font-weight: 600;
         }
 
         /* Form Grid Layout */
@@ -124,10 +167,10 @@
         }
 
         .required-indicator {
-            color: #e4002b; /* Red for required indicator */
+            color: #e4002b;
             font-size: 0.9em;
             margin-left: 5px;
-            font-weight: normal; /* Don't make the (Required) text bold */
+            font-weight: normal;
         }
 
         .form-group input[type="text"],
@@ -157,28 +200,15 @@
             min-height: 80px;
         }
         
-        /* Specific styling for the few remaining checkboxes if any */
-        .checkbox-group label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .checkbox-group div.multi-select-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 25px;
-        }
-        .checkbox-group input[type="checkbox"] + label {
-            font-weight: normal;
-            margin-bottom: 0;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Wide Textarea for specific fields */
-        .wide-textarea {
-            grid-column: span 2;
+        /* Custom Range Input Specific Styling */
+        #customRangeTextInput {
+            margin-top: 10px; /* Space from the dropdown */
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box;
+            width: 100%;
         }
 
         /* Submit Button */
@@ -188,19 +218,19 @@
             min-width: 250px;
             padding: 14px 30px;
             margin: 40px auto 15px auto;
-            background-color: #e4002b; /* Red Cross Red */
+            background-color: #e4002b;
             color: #fff;
             border: none;
             border-radius: 8px;
             font-size: 1.2em;
-            font-weight: 700; /* Bolder text */
+            font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 10px rgba(228, 0, 43, 0.3);
         }
 
         .submit-button:hover {
-            background-color: #c90025; /* Darker red on hover */
+            background-color: #c90025;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(228, 0, 43, 0.4);
         }
@@ -249,6 +279,43 @@
             padding: 12px;
         }
 
+        /* Review/Edit Tab Specific Styles */
+        .review-search-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: flex-end; /* Align search button with input */
+        }
+        .review-search-section .form-group {
+            flex-grow: 1;
+            margin-bottom: 0; /* Remove default margin from form-group */
+        }
+        .review-search-button {
+            background-color: #007bff; /* Blue for search */
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            height: 44px; /* Match input height */
+        }
+        .review-search-button:hover {
+            background-color: #0056b3;
+        }
+        #reviewMessage {
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: bold;
+        }
+        #reviewMessage.success { background-color: #d4edda; color: #155724; }
+        #reviewMessage.error { background-color: #f8d7da; color: #721c24; }
+        #reviewMessage.info { background-color: #e0f2f7; color: #007bff; }
+
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -268,14 +335,27 @@
                 margin: 20px 15px;
                 padding: 25px;
             }
-            .red-cross-header {
-                margin: -25px -25px 25px -25px;
+            .red-cross-header, .tab-nav {
+                margin: 0 -25px 25px -25px;
+            }
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 1em;
             }
             .submit-button {
                 min-width: unset;
                 width: 100%;
                 font-size: 1.1em;
                 padding: 12px 20px;
+            }
+            .review-search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .review-search-button {
+                width: 100%;
+                height: auto;
+                padding: 12px;
             }
         }
     </style>
@@ -287,274 +367,371 @@
             <h1>Summer Deployment Availability Tracker 2026</h1>
         </header>
 
-        <p class="instructions">Complete all fields below, then click the Submit the Form button to run the Office Script. Please wait until the form confirms that your submission is complete!</p>
+        <nav class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('newSubmission')">New Submission</button>
+            <button class="tab-button" onclick="switchTab('reviewSubmission')">Review / Edit Submission</button>
+        </nav>
 
-        <form id="deploymentForm" action="https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7046a2e2fea74535bf27aba7e9055b11/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=le6B1iBSIZ_KthiGM6mkeCx3gBz4PIc1l4CVlRa_bY4" method="POST">
-            <!-- SECTION 1 - Personal Information -->
-            <section class="form-section">
-                <h2>SECTION 1 – Personal Information</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="fullName">Full Name <span class="required-indicator">(Required)</span></label>
-                        <input type="text" id="fullName" name="fullName" required>
+        <div id="newSubmission" class="tab-content active">
+            <p class="instructions">Complete all fields below to submit a new availability record.</p>
+
+            <form id="deploymentForm" action="YOUR_POWER_AUTOMATE_SUBMIT_API_URL" method="POST">
+                <!-- HIDDEN FIELD FOR UNIQUE SUBMISSION ID -->
+                <input type="hidden" id="submissionId" name="submissionId">
+
+                <!-- SECTION 1 - Personal Information -->
+                <section class="form-section">
+                    <h2>SECTION 1 – Personal Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span class="required-indicator">(Required)</span></label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role <span class="required-indicator">(Required)</span></label>
+                            <input type="text" id="role" name="role" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentTeam">Department / Team <span class="required-indicator">(Required)</span></label>
+                            <select id="departmentTeam" name="departmentTeam" required>
+                                <option value="">Select...</option>
+                                <option value="GH&R">GH&R</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="Health Servi">Health Services</option>
+                                <option value="Communica">Communications</option>
+                                <option value="Finance & A">Finance & Administration</option>
+                                <option value="HR">HR</option>
+                                <option value="IT">IT</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="Programs">Programs</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="provinceCurrentLocation">Province (Current Location) <span class="required-indicator">(Required)</span></label>
+                            <select id="provinceCurrentLocation" name="provinceCurrentLocation" required>
+                                <option value="">Select...</option>
+                                <option value="Alberta">Alberta</option>
+                                <option value="British Columbia">British Columbia</option>
+                                <option value="Manitoba">Manitoba</option>
+                                <option value="New Brunswick">New Brunswick</option>
+                                <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                                <option value="Northwest Territories">Northwest Territories</option>
+                                <option value="Nova Scotia">Nova Scotia</option>
+                                <option value="Nunavut">Nunavut</option>
+                                <option value="Ontario">Ontario</option>
+                                <option value="Prince Edward Island">Prince Edward Island</option>
+                                <option value="Quebec">Quebec</option>
+                                <option value="Saskatchewan">Saskatchewan</option>
+                                <option value="Yukon">Yukon</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City <span class="required-indicator">(Required)</span></label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailAddress">Email Address <span class="required-indicator">(Required)</span></label>
+                            <input type="email" id="emailAddress" name="emailAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobileNumber">Mobile Number <span class="required-indicator">(Required)</span></label>
+                            <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="e.g. 1234567890" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyContact">Emergency Contact (Optional)</label>
+                            <input type="tel" id="emergencyContact" name="emergencyContact">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="role">Role <span class="required-indicator">(Required)</span></label>
-                        <input type="text" id="role" name="role" required>
+                </section>
+
+                <!-- SECTION 2 - Availability & Deployment -->
+                <section class="form-section">
+                    <h2>SECTION 2 – Availability & Deployment</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="interestedWildfire">Interested in Wildfire Response 2026? <span class="required-indicator">(Required)</span></label>
+                            <select id="interestedWildfire" name="interestedWildfire" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="preferredDeploymentType">Preferred Deployment Type <span class="required-indicator">(Required)</span></label>
+                            <select id="preferredDeploymentType" name="preferredDeploymentType" required>
+                                <option value="">Select...</option>
+                                <option value="In-person">In-person</option>
+                                <option value="Virtual">Virtual</option>
+                                <option value="Both">Both</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="availabilityWindow">Availability Window (Months) <span class="required-indicator">(Required)</span></label>
+                            <select id="availabilityWindow" name="availabilityWindow" required>
+                                <option value="">Select...</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="May-June">May-June</option>
+                                <option value="June-July">June-July</option>
+                                <option value="July-August">July-August</option>
+                                <option value="May-August">May-August</option>
+                                <option value="Custom Range">Custom Range</option>
+                            </select>
+                            <input type="text" id="customRangeTextInput" name="customRangeTextInput" placeholder="Enter your custom range (e.g., Sept 2026)" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="maximumDeploymentDuration">Maximum Deployment Duration <span class="required-indicator">(Required)</span></label>
+                            <select id="maximumDeploymentDuration" name="maximumDeploymentDuration" required>
+                                <option value="">Select...</option>
+                                <option value="1 week">1 week</option>
+                                <option value="2 weeks">2 weeks</option>
+                                <option value="3 weeks">3 weeks</option>
+                                <option value="1 month">1 month</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="availableShortNotice">Available on Short Notice? <span class="required-indicator">(Required)</span></label>
+                            <select id="availableShortNotice" name="availableShortNotice" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deployOutsideProvince">Willing to Deploy Outside Province? <span class="required-indicator">(Required)</span></label>
+                            <select id="deployOutsideProvince" name="deployOutsideProvince" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deployRemoteIndigenous">Deploy to Remote/Indigenous Communities? <span class="required-indicator">(Required)</span></label>
+                            <select id="deployRemoteIndigenous" name="deployRemoteIndigenous" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="crcSupervisorApproval">CRC Supervisor Approval? <span class="required-indicator">(Required)</span></label>
+                            <select id="crcSupervisorApproval" name="crcSupervisorApproval" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="Pending">Pending</option>
+                                <option value="NA">NA</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="departmentTeam">Department / Team <span class="required-indicator">(Required)</span></label>
-                        <select id="departmentTeam" name="departmentTeam" required>
-                            <option value="">Select...</option>
-                            <option value="GH&R">GH&R</option>
-                            <option value="Emergency">Emergency</option>
-                            <option value="Health Servi">Health Services</option>
-                            <option value="Communica">Communications</option>
-                            <option value="Finance & A">Finance & Administration</option>
-                            <option value="HR">HR</option>
-                            <option value="IT">IT</option>
-                            <option value="Logistics">Logistics</option>
-                            <option value="Programs">Programs</option>
-                            <option value="Other">Other</option>
-                        </select>
+                </section>
+
+                <!-- SECTION 3 - Training, Skills & Experience -->
+                <section class="form-section">
+                    <h2>SECTION 3 – Training, Skills & Experience</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="completedEM101">Completed EM101 Training? <span class="required-indicator">(Required)</span></label>
+                            <select id="completedEM101" name="completedEM101" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="languagesSpoken">Languages Spoken</label>
+                            <input type="text" id="languagesSpoken" name="languagesSpoken" placeholder="e.g. English, French, Spanish">
+                        </div>
+                        <div class="form-group wide-textarea">
+                            <label for="previousEmergencyResponseExperience">Previous Emergency Response Experience? <span class="required-indicator">(Required)</span></label>
+                            <textarea id="previousEmergencyResponseExperience" name="previousEmergencyResponseExperience" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyTypeSupported">Type of Emergency Supported <span class="required-indicator">(Required)</span></label>
+                            <select id="emergencyTypeSupported" name="emergencyTypeSupported" required>
+                                <option value="">Select...</option>
+                                <option value="Wildfire">Wildfire</option>
+                                <option value="Flood">Flood</option>
+                                <option value="Pandemic">Pandemic</option>
+                                <option value="Heatwave">Heatwave</option>
+                                <option value="Evacuation Support">Evacuation Support</option>
+                                <option value="Earthquake">Earthquake</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group wide-textarea">
+                            <label for="crcDeploymentExperience">CRC Deployment Experience? <span class="required-indicator">(Required)</span></label>
+                            <textarea id="crcDeploymentExperience" name="crcDeploymentExperience" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="driversLicenseValid">Driver's License (Valid)? <span class="required-indicator">(Required)</span></label>
+                            <select id="driversLicenseValid" name="driversLicenseValid" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="roleInPreviousResponse">Role in Previous Response</label>
+                            <input type="text" id="roleInPreviousResponse" name="roleInPreviousResponse">
+                        </div>
+                        <div class="form-group">
+                            <label for="medicalRestrictions">Medical Restrictions (Optional)</label>
+                            <textarea id="medicalRestrictions" name="medicalRestrictions" rows="3"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="provinceCurrentLocation">Province (Current Location) <span class="required-indicator">(Required)</span></label>
-                        <select id="provinceCurrentLocation" name="provinceCurrentLocation" required>
-                            <option value="">Select...</option>
-                            <option value="Alberta">Alberta</option>
-                            <option value="British Columbia">British Columbia</option>
-                            <option value="Manitoba">Manitoba</option>
-                            <option value="New Brunswick">New Brunswick</option>
-                            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                            <option value="Northwest Territories">Northwest Territories</option>
-                            <option value="Nova Scotia">Nova Scotia</option>
-                            <option value="Nunavut">Nunavut</option>
-                            <option value="Ontario">Ontario</option>
-                            <option value="Prince Edward Island">Prince Edward Island</option>
-                            <option value="Quebec">Quebec</option>
-                            <option value="Saskatchewan">Saskatchewan</option>
-                            <option value="Yukon">Yukon</option>
-                        </select>
+                </section>
+
+                <!-- SECTION 4 - Additional Information -->
+                <section class="form-section">
+                    <h2>SECTION 4 – Additional Information</h2>
+                    <div class="form-grid single-column">
+                        <div class="form-group">
+                            <label for="skillsTechnicalCapacity">Skills & Technical Capacity (2-3 lines) <span class="required-indicator">(Required)</span></label>
+                            <textarea id="skillsTechnicalCapacity" name="skillsTechnicalCapacity" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="orgVolunteerSupervisorApproval">Org / Volunteer Supervisor Approval? <span class="required-indicator">(Required)</span></label>
+                            <select id="orgVolunteerSupervisorApproval" name="orgVolunteerSupervisorApproval" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="NA">N/A</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Comments</label>
+                            <textarea id="comments" name="comments" rows="4"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="city">City <span class="required-indicator">(Required)</span></label>
-                        <input type="text" id="city" name="city" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="emailAddress">Email Address <span class="required-indicator">(Required)</span></label>
-                        <input type="email" id="emailAddress" name="emailAddress" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mobileNumber">Mobile Number <span class="required-indicator">(Required)</span></label>
-                        <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="e.g. 1234567890" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="emergencyContact">Emergency Contact (Optional)</label>
-                        <input type="tel" id="emergencyContact" name="emergencyContact">
-                    </div>
+                </section>
+
+                <button type="submit" class="submit-button">Submit the Form</button>
+                <div id="formMessage" class="form-message"></div>
+            </form>
+        </div> <!-- End New Submission Tab Content -->
+
+        <div id="reviewSubmission" class="tab-content">
+            <p class="instructions info">Enter your full name to search for existing availability records. You can then edit and re-submit to update your information.</p>
+            <div class="review-search-section">
+                <div class="form-group">
+                    <label for="searchName">Full Name to Search <span class="required-indicator">(Required)</span></label>
+                    <input type="text" id="searchName" placeholder="Enter your full name">
                 </div>
-            </section>
+                <button type="button" class="review-search-button" id="searchButton">Search</button>
+            </div>
+            <div id="reviewMessage" class="info"></div>
+            
+            <!-- The same form (deploymentForm) will be used for editing, but initially cleared. -->
+            <!-- We'll hide the New Submission specific message and show a message indicating edit mode. -->
+            <p id="editModeMessage" class="instructions info" style="display:none; margin-top: 30px;">
+                Editing existing record for <span id="editingName" style="font-weight: bold;"></span>. Press Submit to save changes.
+            </p>
+        </div> <!-- End Review Submission Tab Content -->
 
-            <!-- SECTION 2 - Availability & Deployment -->
-            <section class="form-section">
-                <h2>SECTION 2 – Availability & Deployment</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="interestedWildfire">Interested in Wildfire Response 2026? <span class="required-indicator">(Required)</span></label>
-                        <select id="interestedWildfire" name="interestedWildfire" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="preferredDeploymentType">Preferred Deployment Type <span class="required-indicator">(Required)</span></label>
-                        <select id="preferredDeploymentType" name="preferredDeploymentType" required>
-                            <option value="">Select...</option>
-                            <option value="In-person">In-person</option>
-                            <option value="Virtual">Virtual</option>
-                            <option value="Both">Both</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="availabilityWindow">Availability Window (Months) <span class="required-indicator">(Required)</span></label>
-                        <select id="availabilityWindow" name="availabilityWindow" required>
-                            <option value="">Select...</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="May-June">May-June</option>
-                            <option value="June-July">June-July</option>
-                            <option value="July-August">July-August</option>
-                            <option value="May-August">May-August</option>
-                            <option value="Custom Range">Custom Range</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="maximumDeploymentDuration">Maximum Deployment Duration <span class="required-indicator">(Required)</span></label>
-                        <select id="maximumDeploymentDuration" name="maximumDeploymentDuration" required>
-                            <option value="">Select...</option>
-                            <option value="1 week">1 week</option>
-                            <option value="2 weeks">2 weeks</option>
-                            <option value="3 weeks">3 weeks</option>
-                            <option value="1 month">1 month</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="availableShortNotice">Available on Short Notice? <span class="required-indicator">(Required)</span></label>
-                        <select id="availableShortNotice" name="availableShortNotice" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="deployOutsideProvince">Willing to Deploy Outside Province? <span class="required-indicator">(Required)</span></label>
-                        <select id="deployOutsideProvince" name="deployOutsideProvince" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="deployRemoteIndigenous">Deploy to Remote/Indigenous Communities? <span class="required-indicator">(Required)</span></label>
-                        <select id="deployRemoteIndigenous" name="deployRemoteIndigenous" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="crcSupervisorApproval">CRC Supervisor Approval? <span class="required-indicator">(Required)</span></label>
-                        <select id="crcSupervisorApproval" name="crcSupervisorApproval" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                            <option value="Pending">Pending</option>
-                            <option value="NA">NA</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 3 - Training, Skills & Experience -->
-            <section class="form-section">
-                <h2>SECTION 3 – Training, Skills & Experience</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="completedEM101">Completed EM101 Training? <span class="required-indicator">(Required)</span></label>
-                        <select id="completedEM101" name="completedEM101" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="languagesSpoken">Languages Spoken</label>
-                        <input type="text" id="languagesSpoken" name="languagesSpoken" placeholder="e.g. English, French, Spanish">
-                    </div>
-                    <div class="form-group wide-textarea">
-                        <label for="previousEmergencyResponseExperience">Previous Emergency Response Experience? <span class="required-indicator">(Required)</span></label>
-                        <textarea id="previousEmergencyResponseExperience" name="previousEmergencyResponseExperience" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="emergencyTypeSupported">Type of Emergency Supported <span class="required-indicator">(Required)</span></label>
-                        <select id="emergencyTypeSupported" name="emergencyTypeSupported" required>
-                            <option value="">Select...</option>
-                            <option value="Wildfire">Wildfire</option>
-                            <option value="Flood">Flood</option>
-                            <option value="Pandemic">Pandemic</option>
-                            <option value="Heatwave">Heatwave</option>
-                            <option value="Evacuation Support">Evacuation Support</option>
-                            <option value="Earthquake">Earthquake</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group wide-textarea">
-                        <label for="crcDeploymentExperience">CRC Deployment Experience? <span class="required-indicator">(Required)</span></label>
-                        <textarea id="crcDeploymentExperience" name="crcDeploymentExperience" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="driversLicenseValid">Driver's License (Valid)? <span class="required-indicator">(Required)</span></label>
-                        <select id="driversLicenseValid" name="driversLicenseValid" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="roleInPreviousResponse">Role in Previous Response</label>
-                        <input type="text" id="roleInPreviousResponse" name="roleInPreviousResponse">
-                    </div>
-                    <div class="form-group">
-                        <label for="medicalRestrictions">Medical Restrictions (Optional)</label>
-                        <textarea id="medicalRestrictions" name="medicalRestrictions" rows="3"></textarea>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 4 - Additional Information -->
-            <section class="form-section">
-                <h2>SECTION 4 – Additional Information</h2>
-                <div class="form-grid single-column">
-                    <div class="form-group">
-                        <label for="skillsTechnicalCapacity">Skills & Technical Capacity (2-3 lines) <span class="required-indicator">(Required)</span></label>
-                        <textarea id="skillsTechnicalCapacity" name="skillsTechnicalCapacity" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="orgVolunteerSupervisorApproval">Org / Volunteer Supervisor Approval? <span class="required-indicator">(Required)</span></label>
-                        <select id="orgVolunteerSupervisorApproval" name="orgVolunteerSupervisorApproval" required>
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="NA">N/A</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="comments">Comments</label>
-                        <textarea id="comments" name="comments" rows="4"></textarea>
-                    </div>
-                </div>
-            </section>
-
-            <button type="submit" class="submit-button">Submit the Form</button>
-            <div id="formMessage" class="form-message"></div>
-        </form>
     </div>
 
     <script>
-        const form = document.getElementById('deploymentForm');
-        const formMessage = document.getElementById('formMessage');
+        // !! IMPORTANT: Replace these with YOUR Power Automate URLs !!
+        // This is for submitting/updating data (your original form flow)
+        const POWER_AUTOMATE_SUBMIT_API_URL = "YOUR_POWER_AUTOMATE_SUBMIT_API_URL"; 
+        // This is for reading ALL data (your new read-only dashboard flow)
+        const POWER_AUTOMATE_READ_API_URL = "YOUR_POWER_AUTOMATE_READ_API_URL"; 
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+        const deploymentForm = document.getElementById('deploymentForm');
+        const formMessage = document.getElementById('formMessage');
+        const submissionIdInput = document.getElementById('submissionId'); // Hidden input for ID
+
+        const availabilityWindowSelect = document.getElementById('availabilityWindow');
+        const customRangeTextInput = document.getElementById('customRangeTextInput');
+
+        const tabButtons = document.querySelectorAll('.tab-nav .tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const searchNameInput = document.getElementById('searchName');
+        const searchButton = document.getElementById('searchButton');
+        const reviewMessage = document.getElementById('reviewMessage');
+        const editModeMessage = document.getElementById('editModeMessage');
+        const editingNameSpan = document.getElementById('editingName');
+
+        let currentEditSubmissionId = null; // Stores the SubmissionID of the record being edited
+
+        // --- Tab Switching Logic ---
+        function switchTab(tabId) {
+            tabContents.forEach(content => content.classList.remove('active'));
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            
+            // Reset form when switching tabs, especially from review back to new
+            deploymentForm.reset();
+            currentEditSubmissionId = null;
+            submissionIdInput.value = ''; // Clear hidden ID
+            formMessage.style.opacity = '0'; // Hide submission message
+            editModeMessage.style.display = 'none'; // Hide edit message
+            reviewMessage.style.display = 'none'; // Hide review search message
+            customRangeTextInput.style.display = 'none'; // Hide custom range input
+
+            // If switching to new submission tab, ensure custom range is hidden unless selected
+            if (tabId === 'newSubmission') {
+                document.querySelector('.instructions').style.display = 'block'; // Show new submission instructions
+                document.querySelector('#reviewSubmission .instructions').style.display = 'none'; // Hide review instructions if exists
+            } else if (tabId === 'reviewSubmission') {
+                document.querySelector('.instructions').style.display = 'none'; // Hide new submission instructions
+                document.querySelector('#reviewSubmission .instructions').style.display = 'block'; // Show review instructions
+            }
+        }
+
+        // --- Custom Range Input Logic ---
+        availabilityWindowSelect.addEventListener('change', function() {
+            if (this.value === 'Custom Range') {
+                customRangeTextInput.style.display = 'block';
+                customRangeTextInput.setAttribute('required', 'required'); // Make required when visible
+            } else {
+                customRangeTextInput.style.display = 'none';
+                customRangeTextInput.removeAttribute('required'); // Not required when hidden
+                customRangeTextInput.value = ''; // Clear value when hidden
+            }
+        });
+
+        // --- Form Submission Logic ---
+        deploymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
             formMessage.textContent = 'Submitting...';
             formMessage.className = 'form-message submitting';
-            const submitButton = form.querySelector('.submit-button');
-            submitButton.disabled = true; // Disable button during submission
+            const submitButton = deploymentForm.querySelector('.submit-button');
+            submitButton.disabled = true;
 
             const formData = {};
 
-            // Collect values from all text, email, tel, select, textarea inputs
-            // This now correctly picks up values from all single-select dropdowns
-            form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], select, textarea').forEach(input => {
+            deploymentForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], select, textarea, input[type="hidden"]').forEach(input => {
                 formData[input.name] = input.value;
             });
-            
-            // All "Yes/No" or multi-option choices are now handled by select elements.
-            // No specific radio/checkbox collection logic is needed for these fields anymore.
 
-            // Log formData to console for debugging (optional)
-            console.log('Form Data:', formData);
+            // Special handling for 'availabilityWindow' if 'Custom Range' is selected
+            if (formData.availabilityWindow === 'Custom Range' && formData.customRangeTextInput) {
+                formData.availabilityWindow = formData.customRangeTextInput; // Replace "Custom Range" with the actual text
+            }
+            delete formData.customRangeTextInput; // Remove this helper field from final data
+
+            // Generate SubmissionID for new records only
+            if (!currentEditSubmissionId) {
+                formData.submissionId = crypto.randomUUID();
+            } else {
+                formData.submissionId = currentEditSubmissionId; // Use existing ID for updates
+            }
+            
+            console.log('Form Data for Submission:', formData);
 
             try {
-                const response = await fetch(form.action, {
+                const response = await fetch(POWER_AUTOMATE_SUBMIT_API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -566,9 +743,13 @@
                     const result = await response.json();
                     formMessage.textContent = result.message || 'Form submitted successfully!';
                     formMessage.className = 'form-message success';
-                    form.reset(); // Clear the form
+                    deploymentForm.reset(); // Clear the form
+                    currentEditSubmissionId = null; // Clear ID after submission
+                    submissionIdInput.value = '';
+                    editModeMessage.style.display = 'none'; // Hide edit message
+                    customRangeTextInput.style.display = 'none'; // Hide custom range input
                 } else {
-                    const errorData = await response.json();
+                    const errorData = await response.json().catch(() => ({ message: response.statusText }));
                     formMessage.textContent = `Submission failed: ${errorData.message || response.statusText}`;
                     formMessage.className = 'form-message error';
                 }
@@ -577,9 +758,119 @@
                 formMessage.textContent = 'An unexpected error occurred. Please try again.';
                 formMessage.className = 'form-message error';
             } finally {
-                submitButton.disabled = false; // Re-enable button
+                submitButton.disabled = false;
             }
         });
+
+        // --- Review/Edit Submission Logic ---
+        searchButton.addEventListener('click', async () => {
+            const searchName = searchNameInput.value.trim();
+            if (!searchName) {
+                displayReviewMessage('Please enter a name to search.', 'error');
+                return;
+            }
+
+            displayReviewMessage('Searching for records...', 'info');
+            searchButton.disabled = true;
+
+            try {
+                const response = await fetch(POWER_AUTOMATE_READ_API_URL, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const allData = await response.json();
+                console.log("All data fetched for search:", allData);
+
+                const foundRecords = allData.filter(record => 
+                    record['Full Name'] && record['Full Name'].toLowerCase() === searchName.toLowerCase()
+                );
+
+                if (foundRecords.length > 0) {
+                    const recordToEdit = foundRecords[0]; // Take the first match
+                    displayReviewMessage(`Record found for ${recordToEdit['Full Name']}. Form populated for editing.`, 'success');
+                    populateFormForEdit(recordToEdit);
+                    currentEditSubmissionId = recordToEdit.SubmissionID; // Store the ID
+                    submissionIdInput.value = recordToEdit.SubmissionID; // Set hidden input
+
+                    editingNameSpan.textContent = recordToEdit['Full Name'];
+                    editModeMessage.style.display = 'block';
+
+                    // Ensure custom range input visibility is correct after populating
+                    if (document.getElementById('availabilityWindow').value === 'Custom Range') {
+                        customRangeTextInput.style.display = 'block';
+                        customRangeTextInput.setAttribute('required', 'required');
+                    } else {
+                        customRangeTextInput.style.display = 'none';
+                        customRangeTextInput.removeAttribute('required');
+                    }
+
+                } else {
+                    displayReviewMessage(`No record found for "${searchName}".`, 'error');
+                    deploymentForm.reset(); // Clear form if nothing found
+                    currentEditSubmissionId = null;
+                    submissionIdInput.value = '';
+                    editModeMessage.style.display = 'none';
+                    customRangeTextInput.style.display = 'none'; // Hide custom range input
+                }
+
+            } catch (error) {
+                console.error("Error during search:", error);
+                displayReviewMessage(`Error searching: ${error.message}.`, 'error');
+                deploymentForm.reset(); // Clear form on error
+                currentEditSubmissionId = null;
+                submissionIdInput.value = '';
+                editModeMessage.style.display = 'none';
+                customRangeTextInput.style.display = 'none'; // Hide custom range input
+            } finally {
+                searchButton.disabled = false;
+            }
+        });
+
+        function populateFormForEdit(rowData) {
+            deploymentForm.reset(); // Start with a clean form
+
+            // Iterate over all form elements and populate them
+            for (const key in rowData) {
+                if (rowData.hasOwnProperty(key)) {
+                    const formElement = deploymentForm.querySelector(`[name="${key}"]`);
+                    if (formElement) {
+                        if (formElement.tagName === 'SELECT' || formElement.tagName === 'TEXTAREA' || formElement.type === 'text' || formElement.type === 'email' || formElement.type === 'tel') {
+                            formElement.value = rowData[key] || '';
+                        }
+                    } else if (key === 'Availability Window') { // Special handling for custom range if it came from Excel
+                         // Check if the value from Excel matches one of the standard dropdown options
+                        const standardOptions = Array.from(availabilityWindowSelect.options).map(opt => opt.value);
+                        if (standardOptions.includes(rowData[key])) {
+                            availabilityWindowSelect.value = rowData[key];
+                            customRangeTextInput.style.display = 'none';
+                            customRangeTextInput.value = '';
+                        } else {
+                            // If it's not a standard option, assume it's a custom range
+                            availabilityWindowSelect.value = 'Custom Range';
+                            customRangeTextInput.style.display = 'block';
+                            customRangeTextInput.value = rowData[key] || '';
+                        }
+                    }
+                }
+            }
+        }
+
+        function displayReviewMessage(message, type) {
+            reviewMessage.textContent = message;
+            reviewMessage.className = `review-message ${type}`;
+            reviewMessage.style.display = 'block';
+        }
+
+        // Initialize custom range input state on page load (hidden by default)
+        document.addEventListener('DOMContentLoaded', () => {
+            customRangeTextInput.style.display = 'none';
+        });
+
     </script>
 </body>
 </html>
