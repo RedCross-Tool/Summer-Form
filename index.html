@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer Deployment Availability Tracker 2026</title>
     <link rel="icon" href="https://assetscontent.s3.ca-central-1.amazonaws.com/images/1596805420017-Croix-Rouge-canadienne_LogoPNG_fond-pale_1.png" type="image/png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -38,31 +37,20 @@
 
         /* Header */
         .red-cross-header {
-            background-color: #e4002b; /* Canadian Red Cross Red */
+            background-color: #e4002b;
             color: #fff;
             padding: 25px;
             text-align: center;
             border-radius: 10px 10px 0 0;
-            margin: -35px -35px 0 -35px; /* Adjust margin to align with tabs */
+            margin: -35px -35px 0 -35px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
         }
 
-        .red-cross-header .logo {
-            height: 50px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .red-cross-header h1 {
-            margin: 0;
-            font-size: 2em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
+        .red-cross-header .logo { height: 50px; width: auto; object-fit: contain; }
+        .red-cross-header h1 { margin: 0; font-size: 2em; font-weight: 700; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); }
 
         /* Tab Navigation */
         .tab-nav {
@@ -70,8 +58,8 @@
             justify-content: center;
             background-color: #f0f0f0;
             border-bottom: 2px solid #e4002b;
-            margin: 0 -35px 35px -35px; /* Adjust margin to span width */
-            border-radius: 0 0 10px 10px; /* Rounded bottom corners if header is also rounded */
+            margin: 0 -35px 35px -35px;
+            border-radius: 0 0 10px 10px;
             padding-top: 5px;
         }
 
@@ -95,20 +83,9 @@
             z-index: 1;
         }
 
-        .tab-button:not(.active):hover {
-            color: #e4002b;
-            background-color: #fcfcfc;
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            padding-top: 20px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-button:not(.active):hover { color: #e4002b; background-color: #fcfcfc; }
+        .tab-content { display: none; padding-top: 20px; }
+        .tab-content.active { display: block; }
 
         .instructions {
             background-color: #ffebe6;
@@ -120,11 +97,7 @@
             color: #b30000;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
-        .instructions.info {
-            background-color: #e0f2f7;
-            border-left-color: #007bff;
-            color: #0056b3;
-        }
+        .instructions.info { background-color: #e0f2f7; border-left-color: #007bff; color: #0056b3; }
 
         /* Sections */
         .form-section {
@@ -137,255 +110,78 @@
         }
 
         .form-section h2 {
-            color: #e4002b;
-            font-size: 1.5em;
-            margin-top: 0;
-            margin-bottom: 25px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #f0f0f0;
-            letter-spacing: 0.3px;
-            font-weight: 600;
+            color: #e4002b; font-size: 1.5em; margin-top: 0; margin-bottom: 25px;
+            padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; font-weight: 600;
         }
 
         /* Form Grid Layout */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px 35px;
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 35px; }
+        .form-grid.single-column { grid-template-columns: 1fr; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-weight: 600; margin-bottom: 10px; color: #444; font-size: 0.98em; }
+        .required-indicator { color: #e4002b; font-size: 0.9em; margin-left: 5px; font-weight: normal; }
+
+        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="tel"],
+        .form-group select, .form-group textarea {
+            width: 100%; padding: 12px 14px; border: 1px solid #dcdcdc; border-radius: 6px;
+            font-size: 1em; box-sizing: border-box; transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .form-grid.single-column {
-            grid-template-columns: 1fr;
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #e4002b; outline: none; box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.25);
         }
 
-        /* Form Groups */
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #444;
-            font-size: 0.98em;
-        }
-
-        .required-indicator {
-            color: #e4002b;
-            font-size: 0.9em;
-            margin-left: 5px;
-            font-weight: normal;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #dcdcdc;
-            border-radius: 6px;
-            font-size: 1em;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #e4002b;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.25);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        /* Custom Range Input Specific Styling */
-        #customRangeTextInput {
-            margin-top: 10px;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
-            box-sizing: border-box;
-            width: 100%;
-        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        #customRangeTextInput { margin-top: 10px; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; box-sizing: border-box; width: 100%; display: none; }
+        .wide-textarea { grid-column: span 2; }
 
         /* Submit Button */
         .submit-button {
-            display: block;
-            width: auto;
-            min-width: 250px;
-            padding: 14px 30px;
-            margin: 40px auto 15px auto;
-            background-color: #e4002b;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: block; width: auto; min-width: 250px; padding: 14px 30px; margin: 40px auto 15px auto;
+            background-color: #e4002b; color: #fff; border: none; border-radius: 8px; font-size: 1.2em;
+            font-weight: 700; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 10px rgba(228, 0, 43, 0.3);
         }
-
-        .submit-button:hover {
-            background-color: #c90025;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(228, 0, 43, 0.4);
-        }
-
-        .submit-button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
+        .submit-button:hover { background-color: #c90025; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(228, 0, 43, 0.4); }
+        .submit-button:disabled { background-color: #cccccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
         /* Form Messages */
         .form-message {
-            text-align: center;
-            padding: 12px;
-            margin-top: 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+            text-align: center; padding: 12px; margin-top: 20px; border-radius: 6px; font-weight: bold;
+            opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
         }
-
-        .form-message.submitting {
-            background-color: #fff3e0;
-            color: #ff8f00;
-            opacity: 1;
-            max-height: 60px;
-            padding: 12px;
-        }
-
-        .form-message.success {
-            background-color: #e8f5e9;
-            color: #388e3c;
-            opacity: 1;
-            max-height: 60px;
-            padding: 12px;
-        }
-
-        .form-message.error {
-            background-color: #ffebee;
-            color: #d32f2f;
-            opacity: 1;
-            max-height: 80px;
-            padding: 12px;
-        }
+        .form-message.submitting { background-color: #fff3e0; color: #ff8f00; opacity: 1; max-height: 60px; padding: 12px; }
+        .form-message.success { background-color: #e8f5e9; color: #388e3c; opacity: 1; max-height: 60px; padding: 12px; }
+        .form-message.error { background-color: #ffebee; color: #d32f2f; opacity: 1; max-height: 80px; padding: 12px; }
 
         /* Review/Edit Tab Specific Styles */
-        .review-search-section {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            align-items: flex-end;
-        }
-        .review-search-section .form-group {
-            flex-grow: 1;
-            margin-bottom: 0;
-        }
+        .review-search-section { display: flex; gap: 15px; margin-bottom: 30px; align-items: flex-end; }
+        .review-search-section .form-group { flex-grow: 1; margin-bottom: 0; }
         .review-search-button, .load-record-button {
-            background-color: #007bff; /* Blue for search/load */
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 12px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            height: 44px; /* Match input height */
+            background-color: #007bff; color: #fff; border: none; border-radius: 6px; padding: 12px 20px;
+            font-size: 1em; cursor: pointer; transition: background-color 0.3s ease; height: 44px;
         }
-        .review-search-button:hover, .load-record-button:hover {
-            background-color: #0056b3;
-        }
-        .load-record-button {
-            margin-top: 20px;
-            display: block; /* Make it a block to take full width of its container, centered */
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #reviewMessage {
-            text-align: center;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            display: none;
-            font-weight: bold;
-        }
+        .review-search-button:hover, .load-record-button:hover { background-color: #0056b3; }
+        .load-record-button { margin-top: 20px; display: block; width: fit-content; margin-left: auto; margin-right: auto; }
+        
+        #reviewMessage { text-align: center; padding: 10px; border-radius: 4px; margin-bottom: 20px; display: none; font-weight: bold; }
         #reviewMessage.success { background-color: #d4edda; color: #155724; }
         #reviewMessage.error { background-color: #f8d7da; color: #721c24; }
         #reviewMessage.info { background-color: #e0f2f7; color: #007bff; }
 
         #searchResultDisplay {
-            background-color: #f0f8ff;
-            border: 1px solid #b3e0ff;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            display: none;
-            text-align: center;
+            background-color: #f0f8ff; border: 1px solid #b3e0ff; border-radius: 6px; padding: 15px;
+            margin-top: 20px; margin-bottom: 20px; display: none; text-align: center;
         }
-        #searchResultDisplay p {
-            margin: 0 0 10px 0;
-            font-size: 1.1em;
-        }
-        #searchResultDisplay strong {
-            color: #007bff;
-        }
+        #searchResultDisplay p { margin: 0 0 10px 0; font-size: 1.1em; }
+        #searchResultDisplay strong { color: #007bff; }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .wide-textarea {
-                grid-column: span 1;
-            }
-            .red-cross-header h1 {
-                font-size: 1.6em;
-            }
-            .red-cross-header .logo {
-                height: 40px;
-            }
-            .container {
-                margin: 20px 15px;
-                padding: 25px;
-            }
-            .red-cross-header, .tab-nav {
-                margin: 0 -25px 25px -25px;
-            }
-            .tab-button {
-                padding: 10px 15px;
-                font-size: 1em;
-            }
-            .submit-button {
-                min-width: unset;
-                width: 100%;
-                font-size: 1.1em;
-                padding: 12px 20px;
-            }
-            .review-search-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .review-search-button, .load-record-button {
-                width: 100%;
-                height: auto;
-                padding: 12px;
-            }
+            .form-grid { grid-template-columns: 1fr; }
+            .wide-textarea { grid-column: span 1; }
+            .container { margin: 20px 15px; padding: 25px; }
+            .review-search-section { flex-direction: column; align-items: stretch; }
+            .review-search-button, .load-record-button { width: 100%; height: auto; padding: 12px; }
         }
     </style>
 </head>
@@ -401,19 +197,19 @@
             <button class="tab-button" onclick="switchTab('reviewSubmission')">Review / Edit Submission</button>
         </nav>
 
+        <!-- New Submission Tab -->
         <div id="newSubmission" class="tab-content active">
             <p class="instructions" id="newSubmissionInstructions">Complete all fields below to submit a new availability record.</p>
             
-            <!-- Moved editModeMessage here to be visible on the form tab -->
-            <p id="editModeMessage" class="instructions info" style="display:none; margin-top: 30px;">
-                Editing existing record for <span id="editingName" style="font-weight: bold;"></span>. Press Submit to save changes.
+            <p id="editModeMessage" class="instructions info" style="display:none; margin-top: 20px;">
+                Editing existing record for <span id="editingName" style="font-weight: bold;"></span>. Make your changes and press Update below.
             </p>
 
-            <form id="deploymentForm" action="https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7046a2e2fea74535bf27aba7e9055b11/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=le6B1iBSIZ_KthiGM6mkeCx3gBz4PIc1l4CVlRa_bY4" method="POST">
-                <!-- HIDDEN FIELD FOR UNIQUE SUBMISSION ID -->
+            <form id="deploymentForm" action="YOUR_POWER_AUTOMATE_CREATE_API_URL" method="POST">
+                <!-- Hidden field to hold the unique ID for updates -->
                 <input type="hidden" id="submissionId" name="submissionId">
 
-                <!-- SECTION 1 - Personal Information -->
+                <!-- SECTION 1 -->
                 <section class="form-section">
                     <h2>SECTION 1 – Personal Information</h2>
                     <div class="form-grid">
@@ -479,7 +275,7 @@
                     </div>
                 </section>
 
-                <!-- SECTION 2 - Availability & Deployment -->
+                <!-- SECTION 2 -->
                 <section class="form-section">
                     <h2>SECTION 2 – Availability & Deployment</h2>
                     <div class="form-grid">
@@ -514,7 +310,7 @@
                                 <option value="May-August">May-August</option>
                                 <option value="Custom Range">Custom Range</option>
                             </select>
-                            <input type="text" id="customRangeTextInput" name="customRangeTextInput" placeholder="Enter your custom range (e.g., Sept 2026)" style="display: none;">
+                            <input type="text" id="customRangeTextInput" name="customRangeTextInput" placeholder="Enter your custom range (e.g., Sept 2026)">
                         </div>
                         <div class="form-group">
                             <label for="maximumDeploymentDuration">Maximum Deployment Duration <span class="required-indicator">(Required)</span></label>
@@ -558,13 +354,13 @@
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                                 <option value="Pending">Pending</option>
-                                <option value="NA">NA</option>
+                                <option value="NA">N/A</option>
                             </select>
                         </div>
                     </div>
                 </section>
 
-                <!-- SECTION 3 - Training, Skills & Experience -->
+                <!-- SECTION 3 -->
                 <section class="form-section">
                     <h2>SECTION 3 – Training, Skills & Experience</h2>
                     <div class="form-grid">
@@ -580,10 +376,16 @@
                             <label for="languagesSpoken">Languages Spoken</label>
                             <input type="text" id="languagesSpoken" name="languagesSpoken" placeholder="e.g. English, French, Spanish">
                         </div>
-                        <div class="form-group wide-textarea">
+                        
+                        <div class="form-group">
                             <label for="previousEmergencyResponseExperience">Previous Emergency Response Experience? <span class="required-indicator">(Required)</span></label>
-                            <textarea id="previousEmergencyResponseExperience" name="previousEmergencyResponseExperience" rows="3" required></textarea>
+                            <select id="previousEmergencyResponseExperience" name="previousEmergencyResponseExperience" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
+
                         <div class="form-group">
                             <label for="emergencyTypeSupported">Type of Emergency Supported <span class="required-indicator">(Required)</span></label>
                             <select id="emergencyTypeSupported" name="emergencyTypeSupported" required>
@@ -597,10 +399,16 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        <div class="form-group wide-textarea">
+
+                        <div class="form-group">
                             <label for="crcDeploymentExperience">CRC Deployment Experience? <span class="required-indicator">(Required)</span></label>
-                            <textarea id="crcDeploymentExperience" name="crcDeploymentExperience" rows="3" required></textarea>
+                            <select id="crcDeploymentExperience" name="crcDeploymentExperience" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
+
                         <div class="form-group">
                             <label for="driversLicenseValid">Driver's License (Valid)? <span class="required-indicator">(Required)</span></label>
                             <select id="driversLicenseValid" name="driversLicenseValid" required>
@@ -620,7 +428,7 @@
                     </div>
                 </section>
 
-                <!-- SECTION 4 - Additional Information -->
+                <!-- SECTION 4 -->
                 <section class="form-section">
                     <h2>SECTION 4 – Additional Information</h2>
                     <div class="form-grid single-column">
@@ -646,13 +454,14 @@
                     </div>
                 </section>
 
-                <button type="submit" class="submit-button">Submit the Form</button>
+                <button type="submit" class="submit-button" id="submitButton">Submit the Form</button>
                 <div id="formMessage" class="form-message"></div>
             </form>
-        </div> <!-- End New Submission Tab Content -->
+        </div>
 
+        <!-- Review Submission Tab -->
         <div id="reviewSubmission" class="tab-content">
-            <p class="instructions info">Enter your full name to search for existing availability records. You can then edit and re-submit to update your information.</p>
+            <p class="instructions info">Enter your full name to search for existing availability records. You can then click "Load This Record" to populate the form for editing.</p>
             <div class="review-search-section">
                 <div class="form-group">
                     <label for="searchName">Full Name to Search <span class="required-indicator">(Required)</span></label>
@@ -663,29 +472,29 @@
             <div id="reviewMessage" class="info"></div>
             
             <div id="searchResultDisplay" style="display: none;">
-                <p>Record found for <strong><span id="foundRecordName"></span></strong> (ID: <strong><span id="foundRecordId"></span></strong>)</p>
+                <p>Record found for <strong id="foundRecordName"></strong> (ID: <strong id="foundRecordId"></strong>)</p>
                 <button type="button" class="load-record-button" id="loadRecordButton">Load This Record for Editing</button>
             </div>
-        </div> <!-- End Review Submission Tab Content -->
+        </div>
 
     </div>
 
     <script>
-        // !! IMPORTANT: These URLs are now hardcoded as per your request !!
-        const POWER_AUTOMATE_SUBMIT_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7046a2e2fea74535bf27aba7e9055b11/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=le6B1iBSIZ_KthiGM6mkeCx3gBz4PIc1l4CVlRa_bY4"; 
+        // URLs
+        const POWER_AUTOMATE_CREATE_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7046a2e2fea74535bf27aba7e9055b11/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=le6B1iBSIZ_KthiGM6mkeCx3gBz4PIc1l4CVlRa_bY4"; 
         const POWER_AUTOMATE_READ_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f211342d00e74a398ea78b94f534742a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=d_UWXiYkKByCLFOeZJ_QRnAnF9JbuHS9WYOLmPa6ByU"; 
+        const POWER_AUTOMATE_UPDATE_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9fbc5b1adf1c4e05a70a85ebc57f3e2b/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m23datfXb0gtHXsEHhPfpF2m508An4rZVWfLM7PNj_w";
 
+        // DOM Elements
         const deploymentForm = document.getElementById('deploymentForm');
         const formMessage = document.getElementById('formMessage');
-        const submissionIdInput = document.getElementById('submissionId'); // Hidden input for ID
-
+        const submissionIdInput = document.getElementById('submissionId');
         const availabilityWindowSelect = document.getElementById('availabilityWindow');
         const customRangeTextInput = document.getElementById('customRangeTextInput');
-
         const tabButtons = document.querySelectorAll('.tab-nav .tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
         const newSubmissionInstructions = document.getElementById('newSubmissionInstructions');
-        const reviewSubmissionInstructions = document.querySelector('#reviewSubmission .instructions'); // Specific to review tab
+        const reviewSubmissionInstructions = document.querySelector('#reviewSubmission .instructions');
         const searchNameInput = document.getElementById('searchName');
         const searchButton = document.getElementById('searchButton');
         const reviewMessage = document.getElementById('reviewMessage');
@@ -695,24 +504,24 @@
         const loadRecordButton = document.getElementById('loadRecordButton');
         const editModeMessage = document.getElementById('editModeMessage');
         const editingNameSpan = document.getElementById('editingName');
+        const submitButton = document.getElementById('submitButton');
 
-        let currentEditSubmissionId = null; // Stores the SubmissionID of the record being edited
-        let lastFoundRecordData = null; // Stores the data of the record found during search
+        // State Variables
+        let currentEditSubmissionId = null; 
+        let lastFoundRecordData = null; 
 
         // --- Mapping Excel column names to HTML form field names ---
-        // This is crucial because Excel headers often have spaces/different casing
-        // than HTML input 'name' attributes.
         const excelToHtmlFieldMap = {
-            'SubmissionID': 'submissionId', // Make sure Excel column name matches this exactly
+            'SubmissionID': 'submissionId', 
             'Full Name': 'fullName',
             'Role': 'role',
             'Department / Team': 'departmentTeam',
-            'Province': 'provinceCurrentLocation', // Excel column 'Province' maps to HTML 'provinceCurrentLocation'
+            'Province': 'provinceCurrentLocation',
             'City': 'city',
             'Email': 'emailAddress',
             'Mobile': 'mobileNumber',
             'Emergency Contact': 'emergencyContact',
-            'Interested 2026?': 'interestedWildfire', // Excel 'Interested 2026?' maps to HTML 'interestedWildfire'
+            'Interested 2026?': 'interestedWildfire',
             'Deployment Type': 'preferredDeploymentType',
             'Availability Window': 'availabilityWindow',
             'Max Duration': 'maximumDeploymentDuration',
@@ -727,42 +536,39 @@
             'Role in Prev Response': 'roleInPreviousResponse',
             'CRC Deployment?': 'crcDeploymentExperience',
             'Driver\'s License?': 'driversLicenseValid',
-            'Supervisor Approval': 'crcSupervisorApproval', // 'Supervisor Approval' from Excel -> 'crcSupervisorApproval' HTML
-            'Org Supervisor Approval': 'orgVolunteerSupervisorApproval',
             'Medical Restrictions': 'medicalRestrictions',
+            'Supervisor Approval': 'crcSupervisorApproval',
+            'Org Supervisor Approval': 'orgVolunteerSupervisorApproval',
             'Comments': 'comments'
         };
 
-
-        // --- Tab Switching Logic ---
+        // Switch Tabs Logic
         function switchTab(tabId) {
             tabContents.forEach(content => content.classList.remove('active'));
             tabButtons.forEach(button => button.classList.remove('active'));
-
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`.tab-button[onclick="switchTab('${tabId}')"]`).classList.add('active');
             
-            // Always clear/reset form and review components when switching tabs
-            deploymentForm.reset();
-            currentEditSubmissionId = null;
-            submissionIdInput.value = '';
-            lastFoundRecordData = null; // Clear found record data
+            // Only wipe data if we are switching tabs and NOT currently trying to load an edit.
+            if (!currentEditSubmissionId) { 
+                deploymentForm.reset();
+                submissionIdInput.value = '';
+                lastFoundRecordData = null; 
+                customRangeTextInput.style.display = 'none';
+                formMessage.style.opacity = '0';
+                editModeMessage.style.display = 'none';
+                newSubmissionInstructions.style.display = 'block';
+                submitButton.textContent = "Submit the Form";
+            }
             
-            formMessage.style.opacity = '0'; // Hide submission message
-            reviewMessage.style.display = 'none'; // Hide review search message
-            searchResultDisplay.style.display = 'none'; // Hide search results
-            loadRecordButton.style.display = 'none'; // Hide load button
-            customRangeTextInput.style.display = 'none'; // Hide custom range input
-            searchNameInput.value = ''; // Clear search input
-
-
-            // Adjust instructions and edit message visibility based on tab
-            newSubmissionInstructions.style.display = (tabId === 'newSubmission' && !currentEditSubmissionId) ? 'block' : 'none';
-            editModeMessage.style.display = (tabId === 'newSubmission' && currentEditSubmissionId) ? 'block' : 'none';
-            reviewSubmissionInstructions.style.display = (tabId === 'reviewSubmission') ? 'block' : 'none';
+            if (tabId === 'reviewSubmission') {
+                searchResultDisplay.style.display = 'none';
+                reviewMessage.style.display = 'none';
+                searchNameInput.value = '';
+            }
         }
 
-        // --- Custom Range Input Logic ---
+        // Custom Range Logic
         availabilityWindowSelect.addEventListener('change', function() {
             if (this.value === 'Custom Range') {
                 customRangeTextInput.style.display = 'block';
@@ -770,75 +576,60 @@
             } else {
                 customRangeTextInput.style.display = 'none';
                 customRangeTextInput.removeAttribute('required');
-                customRangeTextInput.value = ''; // Clear value when hidden
+                customRangeTextInput.value = ''; 
             }
         });
 
-        // --- Form Submission Logic ---
+        // Form Submission Logic (Create New or Update Existing)
         deploymentForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            formMessage.textContent = 'Submitting...';
+            formMessage.textContent = currentEditSubmissionId ? 'Updating record...' : 'Submitting new record...';
             formMessage.className = 'form-message submitting';
-            const submitButton = deploymentForm.querySelector('.submit-button');
             submitButton.disabled = true;
 
             const formData = {};
 
-            // Collect values from all standard form elements
             deploymentForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], select, textarea, input[type="hidden"]').forEach(input => {
                 formData[input.name] = input.value;
             });
 
-            // Special handling for 'availabilityWindow' if 'Custom Range' is selected
             if (formData.availabilityWindow === 'Custom Range' && formData.customRangeTextInput) {
-                // Use the text from customRangeTextInput as the actual availabilityWindow value
                 formData.availabilityWindow = formData.customRangeTextInput; 
             }
-            // Remove the helper customRangeTextInput from the final submission data
             delete formData.customRangeTextInput; 
 
-            // Generate SubmissionID for new records only if not in edit mode
+            let targetApiUrl;
             if (!currentEditSubmissionId) {
-                formData.submissionId = crypto.randomUUID();
+                formData.submissionId = crypto.randomUUID(); 
+                targetApiUrl = POWER_AUTOMATE_CREATE_API_URL;
             } else {
-                formData.submissionId = currentEditSubmissionId; // Use existing ID for updates
+                formData.submissionId = currentEditSubmissionId; 
+                targetApiUrl = POWER_AUTOMATE_UPDATE_API_URL;
             }
             
-            console.log('Form Data for Submission:', formData);
-
             try {
-                const response = await fetch(POWER_AUTOMATE_SUBMIT_API_URL, {
+                const response = await fetch(targetApiUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData),
                 });
 
                 if (response.ok) {
-                    const result = await response.json();
-                    formMessage.textContent = result.message || 'Form submitted successfully!';
+                    formMessage.textContent = currentEditSubmissionId ? 'Record updated successfully!' : 'Form submitted successfully!';
                     formMessage.className = 'form-message success';
                     
-                    deploymentForm.reset(); // Clear the form
-                    currentEditSubmissionId = null; // Clear ID after submission
+                    // Reset to pure New Submission state after success
+                    currentEditSubmissionId = null;
+                    deploymentForm.reset();
                     submissionIdInput.value = '';
-                    lastFoundRecordData = null; // Clear found record data
-                    editModeMessage.style.display = 'none'; // Hide edit message
-                    customRangeTextInput.style.display = 'none'; // Hide custom range input
-                    searchResultDisplay.style.display = 'none'; // Hide search results
-                    newSubmissionInstructions.style.display = 'block'; // Show normal instructions
-
-                    // If currently on review tab, also clear search input and message
-                    if (document.getElementById('reviewSubmission').classList.contains('active')) {
-                        searchNameInput.value = '';
-                        displayReviewMessage('Please enter a name to search.', 'info'); // Reset review instructions
-                    }
-
+                    editModeMessage.style.display = 'none';
+                    customRangeTextInput.style.display = 'none';
+                    newSubmissionInstructions.style.display = 'block';
+                    submitButton.textContent = "Submit the Form"; 
                 } else {
                     const errorData = await response.json().catch(() => ({ message: response.statusText }));
-                    formMessage.textContent = `Submission failed: ${errorData.message || response.statusText}`;
+                    formMessage.textContent = `Submission failed. Status: ${response.status}: ${errorData.message}`;
                     formMessage.className = 'form-message error';
                 }
             } catch (error) {
@@ -850,7 +641,7 @@
             }
         });
 
-        // --- Review/Edit Submission Logic ---
+        // Search Button Logic
         searchButton.addEventListener('click', async () => {
             const searchName = searchNameInput.value.trim();
             if (!searchName) {
@@ -860,10 +651,7 @@
 
             displayReviewMessage('Searching for records...', 'info');
             searchButton.disabled = true;
-            searchResultDisplay.style.display = 'none'; // Hide previous results
-            loadRecordButton.style.display = 'none'; // Hide previous load button
-            editModeMessage.style.display = 'none'; // Hide edit message
-            newSubmissionInstructions.style.display = 'none'; // Hide new submission instructions
+            searchResultDisplay.style.display = 'none';
 
             try {
                 const response = await fetch(POWER_AUTOMATE_READ_API_URL, {
@@ -871,128 +659,112 @@
                     headers: { 'Accept': 'application/json' }
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
                 const allData = await response.json();
-                console.log("All data fetched for search:", allData);
-
                 const foundRecords = allData.filter(record => 
                     record['Full Name'] && record['Full Name'].toLowerCase() === searchName.toLowerCase()
                 );
 
                 if (foundRecords.length > 0) {
-                    lastFoundRecordData = foundRecords[0]; // Store the first match
+                    lastFoundRecordData = foundRecords[0]; 
                     
-                    foundRecordNameSpan.textContent = lastFoundRecordData['Full Name'];
-                    foundRecordIdSpan.textContent = lastFoundRecordData.SubmissionID || 'N/A'; // Display the found ID
+                    document.getElementById('foundRecordName').textContent = lastFoundRecordData['Full Name'];
+                    document.getElementById('foundRecordId').textContent = lastFoundRecordData['SubmissionID'] || 'N/A'; 
                     
-                    searchResultDisplay.style.display = 'block'; // Show the search result info
-                    loadRecordButton.style.display = 'block'; // Show the button to load form
-
+                    searchResultDisplay.style.display = 'block'; 
                     displayReviewMessage(`Record found for "${lastFoundRecordData['Full Name']}". Click "Load This Record" to edit.`, 'success');
-                    
                 } else {
                     displayReviewMessage(`No record found for "${searchName}".`, 'error');
-                    deploymentForm.reset();
-                    currentEditSubmissionId = null;
-                    submissionIdInput.value = '';
-                    lastFoundRecordData = null;
-                    customRangeTextInput.style.display = 'none';
                 }
-
             } catch (error) {
-                console.error("Error during search:", error);
-                displayReviewMessage(`Error searching: ${error.message}. Ensure Power Automate Read flow is running and accessible.`, 'error');
-                deploymentForm.reset();
-                currentEditSubmissionId = null;
-                submissionIdInput.value = '';
-                lastFoundRecordData = null;
-                customRangeTextInput.style.display = 'none';
+                displayReviewMessage(`Error searching. Make sure the Read flow is active.`, 'error');
             } finally {
                 searchButton.disabled = false;
             }
         });
 
+        // Load Record Button Logic
         loadRecordButton.addEventListener('click', () => {
             if (lastFoundRecordData) {
-                populateFormForEdit(lastFoundRecordData);
-                currentEditSubmissionId = lastFoundRecordData.SubmissionID; // Store the ID
-                submissionIdInput.value = lastFoundRecordData.SubmissionID; // Set hidden input
-
-                editingNameSpan.textContent = lastFoundRecordData['Full Name'];
+                // 1. SET STATE FIRST so switchTab doesn't wipe our data
+                currentEditSubmissionId = lastFoundRecordData['SubmissionID'] || null;
+                submissionIdInput.value = currentEditSubmissionId || '';
                 
-                // Switch to New Submission tab and then show the edit message
+                // 2. NOW switch the tab
                 switchTab('newSubmission'); 
-                editModeMessage.style.display = 'block'; // Show editing message
-                newSubmissionInstructions.style.display = 'none'; // Hide new submission instructions
+                
+                // 3. Update UI Headers
+                newSubmissionInstructions.style.display = 'none';
+                document.getElementById('editingName').textContent = lastFoundRecordData['Full Name'] || 'record';
+                editModeMessage.style.display = 'block';
+                submitButton.textContent = "Update Record";
 
-                // Ensure custom range input visibility is correct after populating
-                if (document.getElementById('availabilityWindow').value === 'Custom Range') {
-                    customRangeTextInput.style.display = 'block';
-                    customRangeTextInput.setAttribute('required', 'required');
-                } else {
-                    customRangeTextInput.style.display = 'none';
-                    customRangeTextInput.removeAttribute('required');
-                }
-            } else {
-                displayReviewMessage('No record selected to load.', 'error');
+                // 4. Populate Form
+                populateFormForEdit(lastFoundRecordData);
+
+                // Scroll to top to see edit message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
 
-        // --- Function to populate form fields ---
+        // Populate Form Function 
         function populateFormForEdit(rowData) {
-            deploymentForm.reset(); // Start with a clean form
+            deploymentForm.reset(); 
 
+            // Fill standard mapped inputs
             for (const excelKey in excelToHtmlFieldMap) {
-                if (rowData.hasOwnProperty(excelKey)) {
+                if (rowData[excelKey] !== undefined && rowData[excelKey] !== null) {
                     const htmlName = excelToHtmlFieldMap[excelKey];
                     const formElement = deploymentForm.querySelector(`[name="${htmlName}"]`);
 
                     if (formElement) {
-                        if (formElement.tagName === 'SELECT' || formElement.tagName === 'TEXTAREA' || formElement.type === 'text' || formElement.type === 'email' || formElement.type === 'tel' || formElement.type === 'hidden') {
-                            formElement.value = rowData[excelKey] || '';
-                        }
-                    } else if (excelKey === 'Availability Window') { 
-                         // Special handling for 'Availability Window' and 'Custom Range'
-                        const availabilityValue = rowData[excelKey] || '';
-                        const standardOptions = Array.from(availabilityWindowSelect.options).map(opt => opt.value);
-                        
-                        if (standardOptions.includes(availabilityValue)) {
-                            availabilityWindowSelect.value = availabilityValue;
-                            customRangeTextInput.style.display = 'none';
-                            customRangeTextInput.value = '';
+                        const valueFromExcel = rowData[excelKey];
+
+                        if (formElement.tagName === 'SELECT') {
+                            // Find option by value or text content (case insensitive, trim whitespace)
+                            let found = false;
+                            for (let i = 0; i < formElement.options.length; i++) {
+                                if (formElement.options[i].value.trim().toLowerCase() === valueFromExcel.trim().toLowerCase() ||
+                                    formElement.options[i].textContent.trim().toLowerCase() === valueFromExcel.trim().toLowerCase()) {
+                                    formElement.value = formElement.options[i].value;
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) { formElement.value = ''; }
                         } else {
-                            // If it's not a standard option, assume it's a custom range input text
-                            availabilityWindowSelect.value = 'Custom Range';
-                            customRangeTextInput.style.display = 'block';
-                            customRangeTextInput.value = availabilityValue; // The custom text itself
+                            formElement.value = valueFromExcel;
                         }
-                    } else if (excelKey === 'Supervisor Approval') {
-                         // Special handling for Supervisor Approval if the HTML name differs from map value for some reason
-                         const crcSupervisorApprovalElement = deploymentForm.querySelector('[name="crcSupervisorApproval"]');
-                         if (crcSupervisorApprovalElement) {
-                            crcSupervisorApprovalElement.value = rowData[excelKey] || '';
-                         }
                     }
                 }
             }
+            
+            // Special handling for Availability Window
+            const availabilityValue = rowData['Availability Window'] || ''; 
+            const standardOptions = Array.from(availabilityWindowSelect.options).map(opt => opt.value);
+            
+            if (standardOptions.includes(availabilityValue)) {
+                availabilityWindowSelect.value = availabilityValue;
+                customRangeTextInput.style.display = 'none';
+            } else if (availabilityValue !== '') { 
+                availabilityWindowSelect.value = 'Custom Range';
+                customRangeTextInput.style.display = 'block';
+                customRangeTextInput.value = availabilityValue; 
+            } else {
+                customRangeTextInput.style.display = 'none';
+            }
         }
 
+        // Crucial helper function added back in
         function displayReviewMessage(message, type) {
             reviewMessage.textContent = message;
             reviewMessage.className = `review-message ${type}`;
             reviewMessage.style.display = 'block';
         }
 
-        // Initialize custom range input state on page load (hidden by default)
         document.addEventListener('DOMContentLoaded', () => {
-            customRangeTextInput.style.display = 'none';
-            // Also ensure the initial instruction for new submission is visible
-            newSubmissionInstructions.style.display = 'block';
-            editModeMessage.style.display = 'none'; // Hide edit message initially
-            reviewSubmissionInstructions.style.display = 'none'; // Hide review instructions on load
+            switchTab('newSubmission');
         });
 
     </script>
