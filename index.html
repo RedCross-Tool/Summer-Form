@@ -120,6 +120,11 @@
             color: #b30000;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
+        .instructions.info {
+            background-color: #e0f2f7;
+            border-left-color: #007bff;
+            color: #0056b3;
+        }
 
         /* Sections */
         .form-section {
@@ -202,7 +207,7 @@
         
         /* Custom Range Input Specific Styling */
         #customRangeTextInput {
-            margin-top: 10px; /* Space from the dropdown */
+            margin-top: 10px;
             padding: 10px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -284,14 +289,14 @@
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
-            align-items: flex-end; /* Align search button with input */
+            align-items: flex-end;
         }
         .review-search-section .form-group {
             flex-grow: 1;
-            margin-bottom: 0; /* Remove default margin from form-group */
+            margin-bottom: 0;
         }
-        .review-search-button {
-            background-color: #007bff; /* Blue for search */
+        .review-search-button, .load-record-button {
+            background-color: #007bff; /* Blue for search/load */
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -301,8 +306,15 @@
             transition: background-color 0.3s ease;
             height: 44px; /* Match input height */
         }
-        .review-search-button:hover {
+        .review-search-button:hover, .load-record-button:hover {
             background-color: #0056b3;
+        }
+        .load-record-button {
+            margin-top: 20px;
+            display: block; /* Make it a block to take full width of its container, centered */
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
         #reviewMessage {
             text-align: center;
@@ -315,6 +327,24 @@
         #reviewMessage.success { background-color: #d4edda; color: #155724; }
         #reviewMessage.error { background-color: #f8d7da; color: #721c24; }
         #reviewMessage.info { background-color: #e0f2f7; color: #007bff; }
+
+        #searchResultDisplay {
+            background-color: #f0f8ff;
+            border: 1px solid #b3e0ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        #searchResultDisplay p {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+        }
+        #searchResultDisplay strong {
+            color: #007bff;
+        }
 
 
         /* Responsive Design */
@@ -352,7 +382,7 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .review-search-button {
+            .review-search-button, .load-record-button {
                 width: 100%;
                 height: auto;
                 padding: 12px;
@@ -628,6 +658,11 @@
             </div>
             <div id="reviewMessage" class="info"></div>
             
+            <div id="searchResultDisplay" style="display: none;">
+                <p>Record found for <strong><span id="foundRecordName"></span></strong> (ID: <strong><span id="foundRecordId"></span></strong>)</p>
+                <button type="button" class="load-record-button" id="loadRecordButton">Load This Record for Editing</button>
+            </div>
+
             <!-- The same form (deploymentForm) will be used for editing, but initially cleared. -->
             <!-- We'll hide the New Submission specific message and show a message indicating edit mode. -->
             <p id="editModeMessage" class="instructions info" style="display:none; margin-top: 30px;">
@@ -639,9 +674,7 @@
 
     <script>
         // !! IMPORTANT: Replace these with YOUR Power Automate URLs !!
-        // This is for submitting/updating data (your original form flow)
         const POWER_AUTOMATE_SUBMIT_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7046a2e2fea74535bf27aba7e9055b11/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=le6B1iBSIZ_KthiGM6mkeCx3gBz4PIc1l4CVlRa_bY4"; 
-        // This is for reading ALL data (your new read-only dashboard flow)
         const POWER_AUTOMATE_READ_API_URL = "https://e5136d884e72452fa7e253f2f1e5ae.7b.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f211342d00e74a398ea78b94f534742a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=d_UWXiYkKByCLFOeZJ_QRnAnF9JbuHS9WYOLmPa6ByU"; 
 
         const deploymentForm = document.getElementById('deploymentForm');
@@ -656,10 +689,51 @@
         const searchNameInput = document.getElementById('searchName');
         const searchButton = document.getElementById('searchButton');
         const reviewMessage = document.getElementById('reviewMessage');
+        const searchResultDisplay = document.getElementById('searchResultDisplay');
+        const foundRecordNameSpan = document.getElementById('foundRecordName');
+        const foundRecordIdSpan = document.getElementById('foundRecordId');
+        const loadRecordButton = document.getElementById('loadRecordButton');
         const editModeMessage = document.getElementById('editModeMessage');
         const editingNameSpan = document.getElementById('editingName');
 
         let currentEditSubmissionId = null; // Stores the SubmissionID of the record being edited
+        let lastFoundRecordData = null; // Stores the data of the record found during search
+
+        // --- Mapping Excel column names to HTML form field names ---
+        // This is crucial because Excel headers often have spaces/different casing
+        // than HTML input 'name' attributes.
+        const excelToHtmlFieldMap = {
+            'SubmissionID': 'submissionId', // Make sure Excel column name matches this exactly
+            'Full Name': 'fullName',
+            'Role': 'role',
+            'Department / Team': 'departmentTeam',
+            'Province': 'provinceCurrentLocation',
+            'City': 'city',
+            'Email': 'emailAddress',
+            'Mobile': 'mobileNumber',
+            'Emergency Contact': 'emergencyContact',
+            'Interested 2026?': 'interestedWildfire',
+            'Deployment Type': 'preferredDeploymentType',
+            'Availability Window': 'availabilityWindow',
+            // 'Custom Range' input is handled separately
+            'Max Duration': 'maximumDeploymentDuration',
+            'Short Notice?': 'availableShortNotice',
+            'Deploy Outside Province?': 'deployOutsideProvince',
+            'Deploy Remote/Indigenous?': 'deployRemoteIndigenous',
+            'EM101 Training': 'completedEM101',
+            'Skills & Capacity': 'skillsTechnicalCapacity',
+            'Languages': 'languagesSpoken',
+            'Prev EM Experience?': 'previousEmergencyResponseExperience',
+            'Emergency Types': 'emergencyTypeSupported',
+            'Role in Prev Response': 'roleInPreviousResponse',
+            'CRC Deployment?': 'crcDeploymentExperience',
+            'Driver\'s License?': 'driversLicenseValid',
+            'Medical Restrictions': 'medicalRestrictions',
+            'Supervisor Approval': 'crcSupervisorApproval', // This should be CRC Supervisor Approval from Power Automate's perspective
+            'Org Supervisor Approval': 'orgVolunteerSupervisorApproval',
+            'Comments': 'comments'
+        };
+
 
         // --- Tab Switching Logic ---
         function switchTab(tabId) {
@@ -669,33 +743,32 @@
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`.tab-button[onclick="switchTab('${tabId}')"]`).classList.add('active');
             
-            // Reset form when switching tabs, especially from review back to new
+            // Always clear/reset form and review components when switching tabs
             deploymentForm.reset();
             currentEditSubmissionId = null;
-            submissionIdInput.value = ''; // Clear hidden ID
+            submissionIdInput.value = '';
+            lastFoundRecordData = null; // Clear found record data
+            
             formMessage.style.opacity = '0'; // Hide submission message
             editModeMessage.style.display = 'none'; // Hide edit message
             reviewMessage.style.display = 'none'; // Hide review search message
+            searchResultDisplay.style.display = 'none'; // Hide search results
+            loadRecordButton.style.display = 'none'; // Hide load button
             customRangeTextInput.style.display = 'none'; // Hide custom range input
 
-            // If switching to new submission tab, ensure custom range is hidden unless selected
-            if (tabId === 'newSubmission') {
-                document.querySelector('.instructions').style.display = 'block'; // Show new submission instructions
-                document.querySelector('#reviewSubmission .instructions').style.display = 'none'; // Hide review instructions if exists
-            } else if (tabId === 'reviewSubmission') {
-                document.querySelector('.instructions').style.display = 'none'; // Hide new submission instructions
-                document.querySelector('#reviewSubmission .instructions').style.display = 'block'; // Show review instructions
-            }
+            // Adjust instructions visibility
+            document.querySelector('#newSubmission .instructions').style.display = (tabId === 'newSubmission') ? 'block' : 'none';
+            document.querySelector('#reviewSubmission .instructions').style.display = (tabId === 'reviewSubmission') ? 'block' : 'none';
         }
 
         // --- Custom Range Input Logic ---
         availabilityWindowSelect.addEventListener('change', function() {
             if (this.value === 'Custom Range') {
                 customRangeTextInput.style.display = 'block';
-                customRangeTextInput.setAttribute('required', 'required'); // Make required when visible
+                customRangeTextInput.setAttribute('required', 'required');
             } else {
                 customRangeTextInput.style.display = 'none';
-                customRangeTextInput.removeAttribute('required'); // Not required when hidden
+                customRangeTextInput.removeAttribute('required');
                 customRangeTextInput.value = ''; // Clear value when hidden
             }
         });
@@ -711,17 +784,20 @@
 
             const formData = {};
 
+            // Collect values from all standard form elements
             deploymentForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], select, textarea, input[type="hidden"]').forEach(input => {
                 formData[input.name] = input.value;
             });
 
             // Special handling for 'availabilityWindow' if 'Custom Range' is selected
             if (formData.availabilityWindow === 'Custom Range' && formData.customRangeTextInput) {
-                formData.availabilityWindow = formData.customRangeTextInput; // Replace "Custom Range" with the actual text
+                // Use the text from customRangeTextInput as the actual availabilityWindow value
+                formData.availabilityWindow = formData.customRangeTextInput; 
             }
-            delete formData.customRangeTextInput; // Remove this helper field from final data
+            // Remove the helper customRangeTextInput from the final submission data
+            delete formData.customRangeTextInput; 
 
-            // Generate SubmissionID for new records only
+            // Generate SubmissionID for new records only if not in edit mode
             if (!currentEditSubmissionId) {
                 formData.submissionId = crypto.randomUUID();
             } else {
@@ -743,11 +819,21 @@
                     const result = await response.json();
                     formMessage.textContent = result.message || 'Form submitted successfully!';
                     formMessage.className = 'form-message success';
+                    
                     deploymentForm.reset(); // Clear the form
                     currentEditSubmissionId = null; // Clear ID after submission
                     submissionIdInput.value = '';
+                    lastFoundRecordData = null; // Clear found record data
                     editModeMessage.style.display = 'none'; // Hide edit message
                     customRangeTextInput.style.display = 'none'; // Hide custom range input
+                    searchResultDisplay.style.display = 'none'; // Hide search results
+
+                    // If currently on review tab, also clear search input and message
+                    if (document.getElementById('reviewSubmission').classList.contains('active')) {
+                        searchNameInput.value = '';
+                        displayReviewMessage('Please enter a name to search.', 'info'); // Reset review instructions
+                    }
+
                 } else {
                     const errorData = await response.json().catch(() => ({ message: response.statusText }));
                     formMessage.textContent = `Submission failed: ${errorData.message || response.statusText}`;
@@ -772,6 +858,9 @@
 
             displayReviewMessage('Searching for records...', 'info');
             searchButton.disabled = true;
+            searchResultDisplay.style.display = 'none'; // Hide previous results
+            loadRecordButton.style.display = 'none'; // Hide previous load button
+            editModeMessage.style.display = 'none'; // Hide edit message
 
             try {
                 const response = await fetch(POWER_AUTOMATE_READ_API_URL, {
@@ -791,69 +880,88 @@
                 );
 
                 if (foundRecords.length > 0) {
-                    const recordToEdit = foundRecords[0]; // Take the first match
-                    displayReviewMessage(`Record found for ${recordToEdit['Full Name']}. Form populated for editing.`, 'success');
-                    populateFormForEdit(recordToEdit);
-                    currentEditSubmissionId = recordToEdit.SubmissionID; // Store the ID
-                    submissionIdInput.value = recordToEdit.SubmissionID; // Set hidden input
+                    lastFoundRecordData = foundRecords[0]; // Store the first match
+                    
+                    foundRecordNameSpan.textContent = lastFoundRecordData['Full Name'];
+                    foundRecordIdSpan.textContent = lastFoundRecordData.SubmissionID || 'N/A'; // Display the found ID
+                    
+                    searchResultDisplay.style.display = 'block'; // Show the search result info
+                    loadRecordButton.style.display = 'block'; // Show the button to load form
 
-                    editingNameSpan.textContent = recordToEdit['Full Name'];
-                    editModeMessage.style.display = 'block';
-
-                    // Ensure custom range input visibility is correct after populating
-                    if (document.getElementById('availabilityWindow').value === 'Custom Range') {
-                        customRangeTextInput.style.display = 'block';
-                        customRangeTextInput.setAttribute('required', 'required');
-                    } else {
-                        customRangeTextInput.style.display = 'none';
-                        customRangeTextInput.removeAttribute('required');
-                    }
-
+                    displayReviewMessage(`Record found for "${lastFoundRecordData['Full Name']}". Click "Load This Record" to edit.`, 'success');
+                    
                 } else {
                     displayReviewMessage(`No record found for "${searchName}".`, 'error');
-                    deploymentForm.reset(); // Clear form if nothing found
+                    deploymentForm.reset();
                     currentEditSubmissionId = null;
                     submissionIdInput.value = '';
-                    editModeMessage.style.display = 'none';
-                    customRangeTextInput.style.display = 'none'; // Hide custom range input
+                    lastFoundRecordData = null;
+                    customRangeTextInput.style.display = 'none';
                 }
 
             } catch (error) {
                 console.error("Error during search:", error);
-                displayReviewMessage(`Error searching: ${error.message}.`, 'error');
-                deploymentForm.reset(); // Clear form on error
+                displayReviewMessage(`Error searching: ${error.message}. Ensure Power Automate Read flow is running and accessible.`, 'error');
+                deploymentForm.reset();
                 currentEditSubmissionId = null;
                 submissionIdInput.value = '';
-                editModeMessage.style.display = 'none';
-                customRangeTextInput.style.display = 'none'; // Hide custom range input
+                lastFoundRecordData = null;
+                customRangeTextInput.style.display = 'none';
             } finally {
                 searchButton.disabled = false;
             }
         });
 
+        loadRecordButton.addEventListener('click', () => {
+            if (lastFoundRecordData) {
+                populateFormForEdit(lastFoundRecordData);
+                currentEditSubmissionId = lastFoundRecordData.SubmissionID; // Store the ID
+                submissionIdInput.value = lastFoundRecordData.SubmissionID; // Set hidden input
+
+                editingNameSpan.textContent = lastFoundRecordData['Full Name'];
+                editModeMessage.style.display = 'block'; // Show editing message
+                displayReviewMessage(`Form populated for editing record for "${lastFoundRecordData['Full Name']}".`, 'info');
+
+                // Ensure custom range input visibility is correct after populating
+                if (document.getElementById('availabilityWindow').value === 'Custom Range') {
+                    customRangeTextInput.style.display = 'block';
+                    customRangeTextInput.setAttribute('required', 'required');
+                } else {
+                    customRangeTextInput.style.display = 'none';
+                    customRangeTextInput.removeAttribute('required');
+                }
+            } else {
+                displayReviewMessage('No record selected to load.', 'error');
+            }
+        });
+
+        // --- Function to populate form fields ---
         function populateFormForEdit(rowData) {
             deploymentForm.reset(); // Start with a clean form
 
-            // Iterate over all form elements and populate them
-            for (const key in rowData) {
-                if (rowData.hasOwnProperty(key)) {
-                    const formElement = deploymentForm.querySelector(`[name="${key}"]`);
+            for (const excelKey in excelToHtmlFieldMap) {
+                if (rowData.hasOwnProperty(excelKey)) {
+                    const htmlName = excelToHtmlFieldMap[excelKey];
+                    const formElement = deploymentForm.querySelector(`[name="${htmlName}"]`);
+
                     if (formElement) {
-                        if (formElement.tagName === 'SELECT' || formElement.tagName === 'TEXTAREA' || formElement.type === 'text' || formElement.type === 'email' || formElement.type === 'tel') {
-                            formElement.value = rowData[key] || '';
+                        if (formElement.tagName === 'SELECT' || formElement.tagName === 'TEXTAREA' || formElement.type === 'text' || formElement.type === 'email' || formElement.type === 'tel' || formElement.type === 'hidden') {
+                            formElement.value = rowData[excelKey] || '';
                         }
-                    } else if (key === 'Availability Window') { // Special handling for custom range if it came from Excel
-                         // Check if the value from Excel matches one of the standard dropdown options
+                    } else if (excelKey === 'Availability Window') {
+                         // Special handling for 'Availability Window' and 'Custom Range'
+                        const availabilityValue = rowData[excelKey] || '';
                         const standardOptions = Array.from(availabilityWindowSelect.options).map(opt => opt.value);
-                        if (standardOptions.includes(rowData[key])) {
-                            availabilityWindowSelect.value = rowData[key];
+                        
+                        if (standardOptions.includes(availabilityValue)) {
+                            availabilityWindowSelect.value = availabilityValue;
                             customRangeTextInput.style.display = 'none';
                             customRangeTextInput.value = '';
                         } else {
-                            // If it's not a standard option, assume it's a custom range
+                            // If it's not a standard option, assume it's a custom range input text
                             availabilityWindowSelect.value = 'Custom Range';
                             customRangeTextInput.style.display = 'block';
-                            customRangeTextInput.value = rowData[key] || '';
+                            customRangeTextInput.value = availabilityValue; // The custom text itself
                         }
                     }
                 }
@@ -874,4 +982,3 @@
     </script>
 </body>
 </html>
-
